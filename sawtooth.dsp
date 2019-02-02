@@ -1,0 +1,10 @@
+import("stdfaust.lib");
+//gain = hslider("gain", 0.5, 0, 1, 0.01);
+//gain = an.amp_follower_ar(0.02, 0.02);
+//process = gain, os.sawtooth(440) : *;
+timbre(f) = os.osc(f)*0.5 + os.osc(f*2)*0.25 + os.osc(f*3)*0.125;
+freq = hslider("freq", 440, 50, 1000, 0.01);
+gain = hslider("gain", 0.5, 0, 1, 0.01);
+gate = button("gate") : en.adsr(0.01, 0.01, 0.9, 0.1);
+process = gain * gate * timbre(freq) * 0.5 <: _, _;
+effect = re.zita_rev_fdn;
